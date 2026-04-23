@@ -1,0 +1,8 @@
+services:
+  mockingbird:
+    build: .
+    container_name: mockingbird
+    env_file: .env
+    volumes:
+      - ./data:/data
+    restart: unless-stopped

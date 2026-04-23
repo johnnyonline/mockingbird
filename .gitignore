@@ -1,0 +1,50 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution/packaging
+dist/
+build/
+*.egg-info/
+
+# Virtual environments
+venv/
+env/
+.env/
+.venv/
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local development settings
+.env
+.env.local
+
+# Runtime state
+data/
+state.json
+
+# Telethon user session (login credential — do NOT commit)
+*.session
+*.session-journal
+
+# Logs
+*.log
+
+# Type checking
+.mypy_cache/
+
+# Cache files
+*.cache
+.uv/
+.ruff_cache
+.DS_Store
