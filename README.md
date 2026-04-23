@@ -8,7 +8,7 @@ Signs into a Telegram **user account** via Telethon, watches listed chats, runs 
 
 1. **Clone**
    ```bash
-   git clone https://github.com/flexmeow/mockingbird.git
+   git clone https://github.com/johnnyonline/mockingbird.git
    cd mockingbird
    ```
 
