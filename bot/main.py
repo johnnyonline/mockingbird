@@ -73,7 +73,8 @@ async def _on_message(event: events.NewMessage.Event) -> None:
         f"⚠️ <b>possible incident</b>\n\n"
         f"<b>by</b> {who}\n"
         f"<b>in</b> <a href='{link}'>{chat_title}</a>\n\n"
-        f"<blockquote>{body}</blockquote>",
+        f"<blockquote>{body}</blockquote>\n\n"
+        f"<b>ping</b> @johnnyonline",
         preview_url=preview_url,
     )
 
