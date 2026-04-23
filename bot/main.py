@@ -23,6 +23,8 @@ SKIP_PATTERNS = [
     re.compile(r"onchain\s+messages?", re.IGNORECASE),
 ]
 
+URL_PATTERN = re.compile(r"https?://\S+")
+
 
 def _source_link(username: str | None, chat_id: int, message_id: int) -> str:
     if username:
@@ -54,6 +56,10 @@ async def _on_message(event: events.NewMessage.Event) -> None:
         return
 
     if any(p.search(text) for p in SKIP_PATTERNS):
+        return
+
+    # Skip messages containing non-tweet URLs (unless a tweet is also present to anchor context)
+    if URL_PATTERN.search(text) and not TWEET_URL_PATTERN.search(text):
         return
 
     expanded = await asyncio.to_thread(expand_tweets, text)
