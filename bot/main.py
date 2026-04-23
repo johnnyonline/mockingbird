@@ -42,9 +42,7 @@ async def _send_alert(text: str, preview_url: str | None) -> None:
 
 async def _on_message(event: events.NewMessage.Event) -> None:
     msg = event.message
-    print(f"[_on_message] new message in {event.chat_id}: {msg.id}")
     text = msg.message or ""
-    print(f"[_on_message] text: {text[:100]}{'...' if len(text) > 100 else ''}")
     if not text.strip():
         return
 
