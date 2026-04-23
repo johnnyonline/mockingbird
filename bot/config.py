@@ -29,7 +29,7 @@ GROUP_CHAT_ID = int(_require_env("GROUP_CHAT_ID"))
 # Read side (user account)
 TELEGRAM_API_ID = int(_require_env("TELEGRAM_API_ID"))
 TELEGRAM_API_HASH = _require_env("TELEGRAM_API_HASH")
-TELEGRAM_SESSION = os.getenv("TELEGRAM_SESSION", "/data/user")
+TELEGRAM_STRING_SESSION = _require_env("TELEGRAM_STRING_SESSION")
 
 # Source chats
 MONITOR_CHAT_IDS = _parse_chats(_require_env("MONITOR_CHAT_IDS"))

@@ -31,12 +31,11 @@ Signs into a Telegram **user account** via Telethon, watches listed chats, runs 
    export $(grep -v '^#' .env | xargs)
    ```
 
-5. **First login (one-time, interactive).** Telethon needs to log in as your user. Run locally in a terminal where you can type the SMS code:
+5. **One-time login to generate a session string.**
    ```bash
-   mkdir -p data
-   TELEGRAM_SESSION=./data/user python -u -m bot
+   python scripts/login.py
    ```
-   Enter phone, SMS code, 2FA password if applicable. A `./data/user.session` file gets created — this is your login. Keep it secret (gitignored by default).
+   Enter phone, SMS code, 2FA if applicable. The script prints a long string — copy it into `.env` as `TELEGRAM_STRING_SESSION`. That string is a full login credential; keep it secret (treat like a password, never commit).
 
 6. **Add the alert bot to the alert group.** Momo (or whichever bot token you use) must be a member of `GROUP_CHAT_ID` to post alerts.
 
@@ -46,7 +45,7 @@ Signs into a Telegram **user account** via Telethon, watches listed chats, runs 
 python -u -m bot
 ```
 
-Or via docker compose (mount `./data` so the session persists):
+Or via docker compose:
 ```shell
 docker compose up --build
 ```
@@ -54,6 +53,10 @@ docker compose up --build
 ## Monitoring new chats
 
 Just join the group as your user (manually in Telegram), then add its ID or `@username` to `MONITOR_CHAT_IDS` and restart. No bot invites, no admin permissions needed.
+
+## Running in two places
+
+Don't. Telegram invalidates a session that's used from two IPs simultaneously (`AuthKeyDuplicatedError`) and you'll need to redo step 5. Pick one host and stick to it.
 
 ## Code Style
 

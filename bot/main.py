@@ -5,6 +5,7 @@ import re
 
 from telegram import Bot, LinkPreviewOptions
 from telethon import TelegramClient, events
+from telethon.sessions import StringSession
 
 from bot.classifier import is_exploit
 from bot.config import (
@@ -13,7 +14,7 @@ from bot.config import (
     MONITOR_CHAT_IDS,
     TELEGRAM_API_HASH,
     TELEGRAM_API_ID,
-    TELEGRAM_SESSION,
+    TELEGRAM_STRING_SESSION,
 )
 from bot.fetchers import TWEET_URL_PATTERN, expand_tweets
 
@@ -97,7 +98,7 @@ async def _on_message(event: events.NewMessage.Event) -> None:
 
 async def run() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s")
-    client = TelegramClient(TELEGRAM_SESSION, TELEGRAM_API_ID, TELEGRAM_API_HASH)
+    client = TelegramClient(StringSession(TELEGRAM_STRING_SESSION), TELEGRAM_API_ID, TELEGRAM_API_HASH)
     await client.start()
     me = await client.get_me()
     print(f"[🐦 mockingbird] logged in as @{getattr(me, 'username', None) or me.id}")
