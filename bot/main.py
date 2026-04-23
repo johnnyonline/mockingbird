@@ -1,6 +1,7 @@
 import asyncio
 import html
 import logging
+import re
 
 from telegram import Bot, LinkPreviewOptions
 from telethon import TelegramClient, events
@@ -15,6 +16,12 @@ from bot.config import (
     TELEGRAM_SESSION,
 )
 from bot.fetchers import TWEET_URL_PATTERN, expand_tweets
+
+# Patterns for messages we never want to classify (automated forwards,
+# bots re-broadcasting onchain activity, etc.)
+SKIP_PATTERNS = [
+    re.compile(r"onchain\s+messages?", re.IGNORECASE),
+]
 
 
 def _source_link(username: str | None, chat_id: int, message_id: int) -> str:
@@ -44,6 +51,9 @@ async def _on_message(event: events.NewMessage.Event) -> None:
     msg = event.message
     text = msg.message or ""
     if not text.strip():
+        return
+
+    if any(p.search(text) for p in SKIP_PATTERNS):
         return
 
     expanded = await asyncio.to_thread(expand_tweets, text)
