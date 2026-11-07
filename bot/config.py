@@ -38,5 +38,10 @@ MONITOR_CHAT_IDS = _parse_chats(_require_env("MONITOR_CHAT_IDS"))
 OPENROUTER_API_KEY = _require_env("OPENROUTER_API_KEY")
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "z-ai/glm-5")
 
+# Flex X feed (official X API, app-only Bearer token)
+X_BEARER_TOKEN = _require_env("X_BEARER_TOKEN")
+FLEX_X_USER_ID = _require_env("FLEX_X_USER_ID")  # numeric id of @flexmeow
+FLEX_CHAT_ID = int(_require_env("FLEX_CHAT_ID"))
+
 _prompts = Path(__file__).parent / "prompts"
 EXPLOIT_CLASSIFIER_PROMPT = (_prompts / "exploit-classifier.md").read_text()

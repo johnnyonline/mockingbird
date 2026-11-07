@@ -3,6 +3,9 @@ import re
 import urllib.parse
 import urllib.request
 from html.parser import HTMLParser
+from typing import Any
+
+from bot.config import FLEX_X_USER_ID, X_BEARER_TOKEN
 
 TWEET_URL_PATTERN = re.compile(r"https?://(?:www\.)?(?:twitter\.com|x\.com)/\w+/status/\d+")
 
@@ -67,3 +70,12 @@ def expand_tweets(text: str) -> str:
     if not expansions:
         return text
     return text + "\n\n---\n" + "\n\n".join(expansions)
+
+
+def fetch_x_posts(params: dict[str, str]) -> list[dict[str, Any]]:
+    """Newest-first posts by FLEX_X_USER_ID via the official X API."""
+    url = f"https://api.x.com/2/users/{FLEX_X_USER_ID}/tweets?" + urllib.parse.urlencode(params)
+    req = urllib.request.Request(url, headers={"Authorization": f"Bearer {X_BEARER_TOKEN}"})
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        posts: list[dict[str, Any]] = json.loads(resp.read().decode()).get("data", [])
+    return posts

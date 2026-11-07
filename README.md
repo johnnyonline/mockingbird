@@ -27,7 +27,8 @@ Signs into a Telegram **user account** via Telethon, watches listed chats, runs 
    # Fill BOT_ACCESS_TOKEN (for alerts), GROUP_CHAT_ID (alert target),
    # TELEGRAM_API_ID, TELEGRAM_API_HASH (from my.telegram.org),
    # MONITOR_CHAT_IDS (comma-separated IDs or @usernames),
-   # OPENROUTER_API_KEY
+   # OPENROUTER_API_KEY,
+   # X_BEARER_TOKEN, FLEX_X_USER_ID, FLEX_CHAT_ID (Flex X feed, see below)
    export $(grep -v '^#' .env | xargs)
    ```
 
@@ -53,6 +54,14 @@ docker compose up --build
 ## Monitoring new chats
 
 Just join the group as your user (manually in Telegram), then add its ID or `@username` to `MONITOR_CHAT_IDS` and restart. No bot invites, no admin permissions needed.
+
+## Flex X feed
+
+Every minute, new posts, reposts and quotes by [@flexmeow](https://x.com/flexmeow) (not replies) are shared to `FLEX_CHAT_ID` by the alert bot, which must be a member of that chat. Uses the official X API: pay-per-use, ~$0.005 per shared post, empty polls are free.
+
+## Out-of-credits pings
+
+If OpenRouter or X answers 402 (out of credits), the alert bot pings `GROUP_CHAT_ID` once. It pings again only after that service has worked again and then runs out again.
 
 ## Running in two places
 
